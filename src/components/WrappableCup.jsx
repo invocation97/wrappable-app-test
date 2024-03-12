@@ -11,11 +11,14 @@ import { degToRad } from "three/src/math/MathUtils";
 const image = "/textures/wrapper.png";
 const wawa = "/textures/wawa.png";
 export function WrappableCup(props) {
-  const [designImage, setDesignImage] = useState("/textures/wrapper.png");
+  const [designImage, setDesignImage] = useState("");
   const modelRef = useRef(null);
   const { nodes, materials } = useGLTF("/models/mod_cup.glb");
 
+  console.log(designImage, "design image");
+
   const recieveMessage = (event) => {
+    console.log(event);
     if (event.origin !== "https://bdef0a.myshopify.com/") {
       return;
     }
