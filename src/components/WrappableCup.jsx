@@ -19,10 +19,7 @@ export function WrappableCup(props) {
 
   const recieveMessage = (event) => {
     console.log(event);
-    if (
-      event.origin !==
-      "https://bdef0a.myshopify.com/collections/all/products/super-cool-product"
-    ) {
+    if (event.origin !== "https://bdef0a.myshopify.com") {
       return;
     }
     if (event.data.featuredImage) {
