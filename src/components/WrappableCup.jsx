@@ -14,9 +14,23 @@ const wawa = "/textures/wawa.png";
 export function WrappableCup(props) {
   const [designImage, setDesignImage] = useState("/textures/wrapper.png");
   const modelRef = useRef(null);
-  const texture = useTexture("/textures/wrapper.png");
   const { nodes, materials } = useGLTF("/models/mod_cup.glb");
-  const { scene } = useThree();
+
+  const recieveMessage = (event) => {
+    if (event.origin !== "https://bdef0a.myshopify.com/") {
+      return;
+    }
+    if (event.data.featuredImage) {
+      setDesignImage(event.data.featuredImage);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("message", recieveMessage);
+    return () => {
+      window.removeEventListener("message", recieveMessage);
+    };
+  }, []);
 
   function download3DModel() {
     if (!modelRef.current) return;
@@ -3093,15 +3107,7 @@ export function WrappableCup(props) {
           rotation={rotation}
           scale={scale}
           map={useTexture(designImage)}
-        >
-          {/* <meshStandardMaterial
-						map={texture}
-						toneMapped={false}
-						transparent
-						polygonOffset
-						polygonOffsetFactor={-1}
-					/> */}
-        </Decal>
+        ></Decal>
       </mesh>
     </group>
   );
