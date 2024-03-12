@@ -11,7 +11,7 @@ import { degToRad } from "three/src/math/MathUtils";
 const image = "/textures/wrapper.png";
 const wawa = "/textures/wawa.png";
 export function WrappableCup(props) {
-  const [designImage, setDesignImage] = useState("");
+  const [designImage, setDesignImage] = useState("/textures/wrapper.png");
   const modelRef = useRef(null);
   const { nodes, materials } = useGLTF("/models/mod_cup.glb");
 
