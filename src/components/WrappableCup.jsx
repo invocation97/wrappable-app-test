@@ -3113,5 +3113,5 @@ export function WrappableCup(props) {
   );
 }
 
-useGLTF.preload("/mod_cup.glb");
+useGLTF.preload("../assets/mod_cup.glb");
 [image, wawa].forEach(useTexture.preload);
