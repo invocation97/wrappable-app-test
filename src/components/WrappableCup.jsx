@@ -31,9 +31,9 @@ export function WrappableCup(props) {
   };
 
   useEffect(() => {
-    window.addEventListener("message", recieveMessage);
+    window.addEventListener("onmessage", recieveMessage);
     return () => {
-      window.removeEventListener("message", recieveMessage);
+      window.removeEventListener("onmessage", recieveMessage);
     };
   }, []);
 
