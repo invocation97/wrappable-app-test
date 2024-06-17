@@ -71,9 +71,9 @@ export function NewCup(props) {
         position={[newXPositions.middlePart, 1.091, newZPositions.middlePart]}
       >
         <Decal
-          debug
-          position={[1.1, 1.1, 3]}
-          scale={14.7}
+          position={[1.1, 0.8, 2.5]}
+          scale={14.5}
+          rotation={[0, 0, 0]}
           map={useTexture(designImage)}
         ></Decal>
       </mesh>
