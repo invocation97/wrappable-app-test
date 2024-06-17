@@ -47,32 +47,32 @@ export function NewCup(props) {
     link.click();
   }
 
-  useControls({
-    design: {
-      image: { image: "/textures/wrapper.png" },
-      label: "Design image",
-      onChange: (blob) => {
-        setDesignImage(blob);
-      },
-    },
-    // angle: {
-    //   min: degToRad(30),
-    //   max: degToRad(270),
-    //   value: 0,
-    //   step: 0.01,
-    //   onChange: (value) => {
-    //     const x = Math.cos(value);
-    //     const z = Math.sin(value);
-    //     const rot = Math.atan2(x, z);
-    //     setRotation(() => [0, rot, 0]);
-    //     setPos((pos) => [x, pos[1], z]);
-    //   },
-    // },
-    export: button(() => {
-      console.log("clicked");
-      download3DModel();
-    }),
-  });
+  //   useControls({
+  //     design: {
+  //       image: { image: "/textures/wrapper.png" },
+  //       label: "Design image",
+  //       onChange: (blob) => {
+  //         setDesignImage(blob);
+  //       },
+  //     },
+  //     // angle: {
+  //     //   min: degToRad(30),
+  //     //   max: degToRad(270),
+  //     //   value: 0,
+  //     //   step: 0.01,
+  //     //   onChange: (value) => {
+  //     //     const x = Math.cos(value);
+  //     //     const z = Math.sin(value);
+  //     //     const rot = Math.atan2(x, z);
+  //     //     setRotation(() => [0, rot, 0]);
+  //     //     setPos((pos) => [x, pos[1], z]);
+  //     //   },
+  //     // },
+  //     export: button(() => {
+  //       console.log("clicked");
+  //       download3DModel();
+  //     }),
+  //   });
   const originalZPositions = {
     topPart: 22.023,
     middlePart: 21.453,
