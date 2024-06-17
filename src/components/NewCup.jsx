@@ -131,7 +131,6 @@ export function NewCup(props) {
         <Decal
           debug
           position={[1.5, 1, 3]}
-          rotation={rotation}
           scale={14.7}
           map={useTexture(designImage)}
         ></Decal>
