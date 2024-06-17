@@ -6,8 +6,8 @@ export const Experience = () => {
     <>
       <OrbitControls />
       <NewCup />
-      <ContactShadows position-y={-0.5} opacity={0.4} blur={2} />
-      <Environment preset="city" background blur={4} />
+      <ContactShadows position-y={-0.5} opacity={0.7} blur={4} />
+      <Environment preset="studio" background blur={1} />
     </>
   );
 };
