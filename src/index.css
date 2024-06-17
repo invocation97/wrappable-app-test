@@ -7,6 +7,10 @@ body {
   margin: 0;
 }
 
+canvas {
+  cursor: grab;
+}
+
 .spinner {
   animation: spin 1s linear infinite;
 }

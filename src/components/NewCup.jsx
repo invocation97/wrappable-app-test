@@ -1,14 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Decal, useGLTF, useTexture } from "@react-three/drei";
 import { calculateCenter } from "../utils/calculateCenter";
-import Spinner from "./Spinner";
 
 export function NewCup(props) {
   const [designImage, setDesignImage] = useState("/textures/wrapper.png");
-  const [isLoading, setIsLoading] = useState(true);
-  const { nodes, materials } = useGLTF("/models/cup.glb", true, undefined, () =>
-    setIsLoading(false)
-  );
+  const { nodes, materials } = useGLTF("/models/cup.glb");
   const modelRef = useRef(null);
 
   useEffect(() => {
@@ -18,7 +14,6 @@ export function NewCup(props) {
       setDesignImage(designImg);
     }
   }, []);
-
   const originalZPositions = {
     topPart: 22.023,
     middlePart: 21.453,
@@ -54,14 +49,13 @@ export function NewCup(props) {
     middlePart: originalXPositions.middlePart - centerX,
   };
 
+  // Calculate the new z positions
   const newZPositions = {
     topPart: originalZPositions.topPart - centerZ,
     middlePart: originalZPositions.middlePart - centerZ,
   };
-
   return (
     <group {...props} dispose={null} ref={modelRef}>
-      {isLoading && <Spinner />}
       <mesh
         castShadow
         receiveShadow
@@ -77,11 +71,10 @@ export function NewCup(props) {
         position={[newXPositions.middlePart, 1.091, newZPositions.middlePart]}
       >
         <Decal
+          debug
           position={[1.1, 1.1, 3]}
           scale={14.7}
-          map={useTexture(designImage, undefined, undefined, () =>
-            setIsLoading(false)
-          )}
+          map={useTexture(designImage)}
         ></Decal>
       </mesh>
     </group>
