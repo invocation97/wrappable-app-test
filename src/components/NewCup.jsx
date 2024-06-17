@@ -12,6 +12,7 @@ export function NewCup(props) {
   useEffect(() => {
     function handleMessage(event) {
       if (event.origin !== "https://wrapware.com") return;
+      console.log(event.data);
       setDesignImage(event.data);
     }
     window.addEventListener("message", handleMessage);
