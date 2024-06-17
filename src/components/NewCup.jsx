@@ -10,16 +10,11 @@ export function NewCup(props) {
   const modelRef = useRef(null);
 
   useEffect(() => {
-    function handleMessage(event) {
-      if (event.origin !== "https://wrapware.com") return;
-      console.log(event.data);
-      setDesignImage(event.data);
+    const params = new URLSearchParams(window.location.search);
+    const designImg = params.get("designImg");
+    if (designImg) {
+      setDesignImage(designImg);
     }
-    window.addEventListener("message", handleMessage);
-
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
   }, []);
 
   function download3DModel() {
