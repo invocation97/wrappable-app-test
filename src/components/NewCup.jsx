@@ -125,8 +125,7 @@ export function NewCup(props) {
         position={[newXPositions.middlePart, 1.091, newZPositions.middlePart]}
       >
         <Decal
-          debug
-          position={[1.5, 1, 3]}
+          position={[1.1, 1.1, 3]}
           scale={14.7}
           map={useTexture(designImage)}
         ></Decal>
