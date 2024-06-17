@@ -1,14 +1,22 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
+import { Leva } from "leva";
 
 function App() {
   return (
-    <>
-      <Canvas shadows camera={{ position: [3, 23, 60], fov: 30 }}>
-        <color attach="background" args={["#8562e3"]} />
+    <div style={{ position: "relative", minHeight: "100vh", height: "100%" }}>
+      <div style={{ position: "absolute", left: 0, top: 0, zIndex: 99999 }}>
+        <Leva fill />
+      </div>
+      <Canvas
+        shadows
+        camera={{ position: [3, 23, 60], fov: 30 }}
+        style={{ height: "100%" }}
+      >
+        <color attach="background" args={["#2E2E2E"]} />
         <Experience />
       </Canvas>
-    </>
+    </div>
   );
 }
 
