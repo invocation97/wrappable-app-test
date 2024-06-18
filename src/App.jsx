@@ -4,16 +4,19 @@ import { Leva } from "leva";
 import { useEffect } from "react";
 
 function App() {
+  const debugging = true;
   useEffect(() => {
-    if (window.self !== window.top) {
-      // The page is in an iframe
-      if (!document.referrer.includes("wrapware.com")) {
-        // The page is not embedded from wrapware.com
-        window.top.location.href = "https://wrapware.com";
+    if (!debugging) {
+      if (window.self !== window.top) {
+        // The page is in an iframe
+        if (!document.referrer.includes("wrapware.com")) {
+          // The page is not embedded from wrapware.com
+          window.top.location.href = "https://wrapware.com";
+        }
+      } else {
+        // The page is not in an iframe
+        window.location.href = "https://wrapware.com";
       }
-    } else {
-      // The page is not in an iframe
-      window.location.href = "https://wrapware.com";
     }
   }, []);
   return (
@@ -26,7 +29,7 @@ function App() {
         camera={{ position: [3, 23, 60], fov: 30 }}
         style={{ height: "100%" }}
       >
-        <color attach="background" args={["#2E2E2E"]} />
+        <color attach="background" args={["#333947"]} />
         <Experience />
       </Canvas>
     </div>
