@@ -4,7 +4,7 @@ import { Leva } from "leva";
 import { useEffect } from "react";
 
 function App() {
-  const debugging = true;
+  const debugging = false;
   useEffect(() => {
     if (!debugging) {
       if (window.self !== window.top) {
