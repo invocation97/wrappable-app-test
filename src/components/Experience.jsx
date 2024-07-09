@@ -1,13 +1,13 @@
 import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
-import { NewCup } from "./NewCup";
+import { WrapwareCup } from "./WrapwareThreePieces";
 
 export const Experience = () => {
   return (
     <>
       <OrbitControls />
-      <NewCup />
+      <WrapwareCup />
       <ContactShadows position-y={-0.5} opacity={0.7} blur={4} />
-      <Environment preset="studio" background={false} blur={1} />
+      <Environment preset="apartment" background={false} blur={1} />
     </>
   );
 };
