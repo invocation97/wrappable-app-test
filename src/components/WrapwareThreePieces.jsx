@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { calculateNewPositions } from "../utils/calculateNewPositions";
 
 export function WrapwareCup(props) {
-  const [designImage, setDesignImage] = useState("/textures/beaat.webp");
+  const [designImage, setDesignImage] = useState("/textures/anime.png");
   const { nodes, materials } = useGLTF("/models/uv_mapped_cup.glb");
   const modelRef = useRef(null);
 
@@ -105,8 +105,8 @@ export function WrapwareCup(props) {
   // Rotate and scale the texture
   decalTexture.rotation = degToRad(270);
   decalTexture.center.set(0.5, 0.51); // Set the center of rotation
-  decalTexture.repeat.set(1, 1); // Scale the texture
-  decalTexture.offset.set(0, 0.2); // Adjust the offset to fit correctly
+  decalTexture.repeat.set(1, 1.7); // Scale the texture
+  decalTexture.offset.set(0, 0.35); // Adjust the offset to fit correctly
   decalTexture.flipY = false;
 
   const decalMaterial = new THREE.MeshStandardMaterial({
