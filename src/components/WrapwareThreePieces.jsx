@@ -1,18 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Decal, useGLTF, useTexture } from "@react-three/drei";
+import { useGLTF, useTexture } from "@react-three/drei";
 import { useControls } from "leva";
 import * as THREE from "three";
 import { calculateNewPositions } from "../utils/calculateNewPositions";
 
 export function WrapwareCup(props) {
   const [designImage, setDesignImage] = useState("/textures/beaat.webp");
-  const { nodes, materials } = useGLTF("/models/new_cup.glb");
+  const { nodes, materials } = useGLTF("/models/uv_mapped_cup.glb");
   const modelRef = useRef(null);
 
-  const { color } = useControls({
+  useEffect(() => {
+    nodes.Bottom001.geometry.computeVertexNormals();
+    nodes.Middle001.geometry.computeVertexNormals();
+    nodes.Top001.geometry.computeVertexNormals();
+  }, [nodes]);
+
+  const { color, hideImage } = useControls({
     color: {
       value: "White",
       options: ["White", "Chrome", "Dark Gray"],
+    },
+    hideImage: {
+      value: false,
+      label: "Hide the wrapper",
     },
   });
 
@@ -21,6 +31,7 @@ export function WrapwareCup(props) {
       color: colorHex,
       transparent: true,
       opacity: 0.9,
+      metalness: 0.2,
       roughness: 0.7,
       transmission: 1,
       thickness: 0.5,
@@ -28,25 +39,28 @@ export function WrapwareCup(props) {
 
   const materialMapping = {
     White: {
-      top: materials.Color2,
-      bottom: semiTransparentMaterial(0xffffff),
+      top: new THREE.MeshStandardMaterial({
+        color: 0xd9dfdf,
+        metalness: 0.2,
+        roughness: 0.2,
+      }),
+      bottom: semiTransparentMaterial(0xd9dfdf),
     },
     Chrome: {
       top: new THREE.MeshStandardMaterial({
-        color: 0xaaaaaa,
-        metalness: 1,
-        roughness: 0.1,
+        color: 0xb6aea3,
+        metalness: 0.6,
+        roughness: 0.2,
       }),
-      bottom: semiTransparentMaterial(0xeeeeee),
+      bottom: semiTransparentMaterial(0x87888d),
     },
     "Dark Gray": {
       top: new THREE.MeshStandardMaterial({
-        color: 0x1a1a1a,
+        color: 0x232528,
         roughness: 0.5,
         metalness: 0.5,
       }),
-
-      bottom: semiTransparentMaterial(0x1a1a1a),
+      bottom: semiTransparentMaterial(0x232528),
     },
   };
 
@@ -81,14 +95,24 @@ export function WrapwareCup(props) {
   const newZPositions = calculateNewPositions(originalZPositions);
 
   // Load texture and set wrapping mode to clamp
-  const decalTexture = useTexture(designImage);
-  decalTexture.wrapS = THREE.ClampToEdgeWrapping;
-  decalTexture.wrapT = THREE.ClampToEdgeWrapping;
+  const textureLoader = new THREE.TextureLoader();
+  const decalTexture = textureLoader.load(designImage);
+
+  const degToRad = (value) => {
+    return (value * Math.PI) / 180;
+  };
+
+  // Rotate and scale the texture
+  decalTexture.rotation = degToRad(270);
+  decalTexture.center.set(0.5, 0.51); // Set the center of rotation
+  decalTexture.repeat.set(1, 1); // Scale the texture
+  decalTexture.offset.set(0, 0.2); // Adjust the offset to fit correctly
+  decalTexture.flipY = false;
 
   const decalMaterial = new THREE.MeshStandardMaterial({
     map: decalTexture,
-    roughness: 1,
-    metalness: 0,
+    roughness: 0.8,
+    metalness: 1,
     transparent: false,
   });
 
@@ -109,22 +133,14 @@ export function WrapwareCup(props) {
         castShadow
         receiveShadow
         geometry={nodes.Middle001.geometry}
+        rotation={[0, 1, 0]}
         position={[
           newXPositions.middlePart,
           newYPositions.middlePart,
           newZPositions.middlePart,
         ]}
-        material={decalMaterial}
-      >
-        <Decal
-          position={[0, 0.01, 0.05]}
-          scale={0.25}
-          rotation={[0, 0, 0]}
-          roughness={0.2}
-          map={decalTexture}
-          material={decalMaterial}
-        ></Decal>
-      </mesh>
+        material={hideImage ? materialMapping[color].top : decalMaterial}
+      />
       <mesh
         castShadow
         receiveShadow
@@ -140,4 +156,4 @@ export function WrapwareCup(props) {
   );
 }
 
-useGLTF.preload("/models/new_cup.glb");
+useGLTF.preload("/models/uv_mapped_cup.glb");

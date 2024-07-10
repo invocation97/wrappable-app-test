@@ -2,9 +2,10 @@ import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
 import { Leva } from "leva";
 import { useEffect } from "react";
+import { customLevaTheme } from "./utils/levaTheme";
 
 function App() {
-  const debugging = false;
+  const debugging = true;
   useEffect(() => {
     if (!debugging) {
       if (window.self !== window.top) {
@@ -22,7 +23,7 @@ function App() {
   return (
     <div style={{ position: "relative", minHeight: "100vh", height: "100%" }}>
       <div style={{ position: "absolute", left: 0, top: 0, zIndex: 99999 }}>
-        <Leva fill />
+        <Leva fill theme={customLevaTheme} />
       </div>
       <Canvas
         shadows
