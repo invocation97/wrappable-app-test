@@ -91,7 +91,6 @@ export function CupV5({ backgroundColor, ...props }) {
   const originalZPositions = {
     wrapper: 1.08795679,
     lid: 1.07487011,
-
     body: 1.09600306,
     rubber: 1.09600306,
   };
@@ -128,6 +127,7 @@ export function CupV5({ backgroundColor, ...props }) {
       ref={modelRef}
       scale={45}
       rotation={[0, degToRad(180), 0]}
+      position={[0, 5.5, 0]}
     >
       <mesh
         name="Wrapper"
