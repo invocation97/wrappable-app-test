@@ -56,7 +56,7 @@ function App() {
       </div>
       <Canvas
         shadows
-        camera={{ position: [3, 23, 60], fov: 30 }}
+        camera={{ position: [0, 20, 70], fov: 40 }}
         style={{ height: "100%" }}
       >
         <Experience />
