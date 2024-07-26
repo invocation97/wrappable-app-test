@@ -4,11 +4,11 @@ export const customLevaTheme = () => ({
     elevation2: "#181c20", // bg color of the rows (main panel color)
     elevation3: "#373c4b", // bg color of the inputs
     accent1: "#0066dc",
-    accent2: "#007bff",
-    accent3: "#3c93ff",
-    highlight1: "#535760",
-    highlight2: "#3c93ff", //change this
-    highlight3: "#fefefe",
+    accent2: "#0066dc",
+    accent3: "#0066dc",
+    highlight1: "#3c93ff",
+    highlight2: "#3c93ff",
+    highlight3: "#3c93ff",
     vivid1: "#ffcc00",
     folderWidgetColor: "$highlight2",
     folderTextColor: "$highlight3",

@@ -10,3 +10,11 @@ body {
 canvas {
   cursor: grab;
 }
+
+.leva-c-hBtFDW {
+  height: fit-content !important;
+}
+
+.leva-c-enSiwp {
+  z-index: 999999 !important;
+}

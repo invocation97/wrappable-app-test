@@ -1,28 +1,57 @@
 import { Canvas } from "@react-three/fiber";
 import { Experience } from "./components/Experience";
-import { Leva } from "leva";
-import { useEffect } from "react";
+import { Leva, useControls } from "leva";
+import { useEffect, useContext, useRef } from "react";
 import { customLevaTheme } from "./utils/levaTheme";
+import { LevaContext } from "./context/LevaContext";
 
 function App() {
   const debugging = true;
+  const fileInputRef = useRef(null);
+  const {
+    backgroundColor,
+    setBackgroundColor,
+    setUseBackgroundImage,
+    setBackgroundImage,
+  } = useContext(LevaContext);
+
   useEffect(() => {
     if (!debugging) {
       if (window.self !== window.top) {
-        // The page is in an iframe
         if (!document.referrer.includes("wrapware.com")) {
-          // The page is not embedded from wrapware.com
           window.top.location.href = "https://wrapware.com";
         }
       } else {
-        // The page is not in an iframe
         window.location.href = "https://wrapware.com";
       }
     }
   }, []);
+
+  const { bgColor, uploadImage } = useControls({
+    bgColor: {
+      label: "Background Color",
+      value: backgroundColor,
+      onChange: (color) => {
+        setBackgroundColor(color);
+        setUseBackgroundImage(false);
+      },
+    },
+    uploadImage: {
+      label: "Upload Image",
+      value: null,
+      image: undefined,
+      onChange: (blob) => {
+        if (blob) {
+          setUseBackgroundImage(true);
+          setBackgroundImage(blob);
+        }
+      },
+    },
+  });
+
   return (
     <div style={{ position: "relative", minHeight: "100vh", height: "100%" }}>
-      <div style={{ position: "absolute", left: 0, top: 0, zIndex: 99999 }}>
+      <div style={{ position: "absolute", left: 0, top: 0, zIndex: 9999 }}>
         <Leva fill theme={customLevaTheme} />
       </div>
       <Canvas
@@ -30,7 +59,6 @@ function App() {
         camera={{ position: [3, 23, 60], fov: 30 }}
         style={{ height: "100%" }}
       >
-        <color attach="background" args={["#333947"]} />
         <Experience />
       </Canvas>
     </div>
