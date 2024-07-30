@@ -40,6 +40,12 @@ export function CupV5({ backgroundColor, ...props }) {
       polygonOffset: true,
     });
 
+  const siliconeBottomMaterial = new THREE.MeshStandardMaterial({
+    color: 0x232528,
+    roughness: 0.5,
+    metalness: 0,
+  });
+
   const materialMapping = {
     White: {
       top: new THREE.MeshStandardMaterial({
@@ -48,6 +54,7 @@ export function CupV5({ backgroundColor, ...props }) {
         roughness: 0.2,
       }),
       bottom: semiTransparentMaterial(0xd9dfdf),
+      rubber: siliconeBottomMaterial,
     },
     "Stainless steel": {
       top: new THREE.MeshStandardMaterial({
@@ -56,6 +63,7 @@ export function CupV5({ backgroundColor, ...props }) {
         roughness: 0.2,
       }),
       bottom: semiTransparentMaterial(0x87888d),
+      rubber: siliconeBottomMaterial,
     },
     Black: {
       top: new THREE.MeshStandardMaterial({
@@ -64,6 +72,7 @@ export function CupV5({ backgroundColor, ...props }) {
         metalness: 0.5,
       }),
       bottom: semiTransparentMaterial(0x232528),
+      rubber: siliconeBottomMaterial,
     },
   };
 
@@ -162,7 +171,7 @@ export function CupV5({ backgroundColor, ...props }) {
         castShadow
         receiveShadow
         geometry={nodes.RubberBottom.geometry}
-        material={materialMapping[color].top}
+        material={materialMapping[color].rubber}
         position={[
           newXPositions.rubber,
           newYPositions.rubber,

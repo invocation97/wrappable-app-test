@@ -7,8 +7,12 @@ import { LevaContext } from "../context/LevaContext";
 
 export const Experience = () => {
   const { scene } = useThree();
-  const { backgroundColor, useBackgroundImage, backgroundImage } =
-    useContext(LevaContext);
+  const {
+    backgroundColor,
+    useBackgroundImage,
+    backgroundImage,
+    environmentPreset,
+  } = useContext(LevaContext);
 
   useEffect(() => {
     if (useBackgroundImage && backgroundImage) {
@@ -36,8 +40,15 @@ export const Experience = () => {
     <>
       <OrbitControls />
       <CupV5 />
-      <ContactShadows position-y={1} opacity={1} blur={1} />
-      <Environment preset="city" background={false} blur={0.2} />
+      {/* <ambientLight intensity={0.5} /> */}
+      {/* <directionalLight position={[5, 5, 5]} intensity={0.6} /> */}
+      <hemisphereLight
+        skyColor="#ffffff"
+        groundColor="#444444"
+        intensity={0.1}
+      />
+      <ContactShadows far={2} position-y={1} opacity={0.1} blur={0.1} />
+      <Environment preset={environmentPreset} background={false} blur={0} />
     </>
   );
 };

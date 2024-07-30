@@ -13,6 +13,8 @@ function App() {
     setBackgroundColor,
     setUseBackgroundImage,
     setBackgroundImage,
+    environmentPreset,
+    setEnvironmentPreset,
   } = useContext(LevaContext);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ function App() {
     }
   }, []);
 
-  const { bgColor, uploadImage } = useControls({
+  const { bgColor, uploadImage, envPreset } = useControls({
     bgColor: {
       label: "Background Color",
       value: backgroundColor,
@@ -45,6 +47,25 @@ function App() {
           setUseBackgroundImage(true);
           setBackgroundImage(blob);
         }
+      },
+    },
+    envPreset: {
+      label: "Environment Preset",
+      value: environmentPreset,
+      options: [
+        "city",
+        "apartment",
+        "dawn",
+        "forest",
+        "lobby",
+        "night",
+        "park",
+        "studio",
+        "sunset",
+        "warehouse",
+      ],
+      onChange: (preset) => {
+        setEnvironmentPreset(preset);
       },
     },
   });

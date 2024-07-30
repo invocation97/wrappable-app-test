@@ -8,6 +8,7 @@ export const LevaProvider = ({ children }) => {
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [cupColor, setCupColor] = useState("White");
   const [hideImage, setHideImage] = useState(false);
+  const [environmentPreset, setEnvironmentPreset] = useState("city");
 
   return (
     <LevaContext.Provider
@@ -22,6 +23,8 @@ export const LevaProvider = ({ children }) => {
         setCupColor,
         hideImage,
         setHideImage,
+        environmentPreset,
+        setEnvironmentPreset,
       }}
     >
       {children}
