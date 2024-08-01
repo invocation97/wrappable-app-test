@@ -32,9 +32,9 @@ export function CupV5({ backgroundColor, ...props }) {
     new THREE.MeshStandardMaterial({
       color: colorHex,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.6,
       metalness: 0.1,
-      roughness: 0.2,
+      roughness: 0.8,
       depthTest: true,
       depthWrite: false,
       polygonOffset: true,
@@ -50,19 +50,19 @@ export function CupV5({ backgroundColor, ...props }) {
     White: {
       top: new THREE.MeshStandardMaterial({
         color: 0xd9dfdf,
-        metalness: 0.2,
-        roughness: 0.2,
+        metalness: 0.1,
+        roughness: 0.6,
       }),
       bottom: semiTransparentMaterial(0xd9dfdf),
       rubber: siliconeBottomMaterial,
     },
     "Stainless steel": {
       top: new THREE.MeshStandardMaterial({
-        color: 0xb6aea3,
-        metalness: 0.6,
-        roughness: 0.2,
+        color: 0xbfbfbf,
+        metalness: 0.7,
+        roughness: 0.3,
       }),
-      bottom: semiTransparentMaterial(0x87888d),
+      bottom: semiTransparentMaterial(0xd9dfdf),
       rubber: siliconeBottomMaterial,
     },
     Black: {
@@ -154,6 +154,8 @@ export function CupV5({ backgroundColor, ...props }) {
       />
       <mesh
         name="Lid"
+        castShadow
+        receiveShadow
         geometry={nodes.Lid.geometry}
         material={materialMapping[color].bottom}
         position={[newXPositions.lid, newYPositions.lid, newZPositions.lid]}

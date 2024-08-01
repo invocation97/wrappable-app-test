@@ -40,13 +40,13 @@ export const Experience = () => {
     <>
       <OrbitControls />
       <CupV5 />
-      {/* <ambientLight intensity={0.5} /> */}
-      {/* <directionalLight position={[5, 5, 5]} intensity={0.6} /> */}
-      <hemisphereLight
+      <ambientLight intensity={0.2} />
+      <directionalLight position={[0, 0, 10]} intensity={0.35} />
+      {/* <hemisphereLight
         skyColor="#ffffff"
         groundColor="#444444"
         intensity={0.1}
-      />
+      /> */}
       <ContactShadows far={2} position-y={1} opacity={0.1} blur={0.1} />
       <Environment preset={environmentPreset} background={false} blur={0} />
     </>
