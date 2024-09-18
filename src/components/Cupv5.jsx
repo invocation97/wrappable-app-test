@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { calculateNewPositions } from "../utils/calculateNewPositions";
 
@@ -22,10 +22,10 @@ export function CupV5({ backgroundColor, ...props }) {
       value: "White",
       options: ["White", "Stainless steel", "Black"],
     },
-    hideImage: {
-      value: false,
-      label: "Hide Wrapper",
-    },
+    // hideImage: {
+    //   value: false,
+    //   label: "Hide Wrapper",
+    // },
   });
 
   const semiTransparentMaterial = (colorHex) =>

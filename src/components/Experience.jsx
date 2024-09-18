@@ -1,9 +1,9 @@
 import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useEffect, useContext } from "react";
+import { useContext, useEffect } from "react";
 import * as THREE from "three";
-import { CupV5 } from "./Cupv5";
 import { LevaContext } from "../context/LevaContext";
+import { CupV5 } from "./Cupv5";
 
 export const Experience = () => {
   const { scene } = useThree();

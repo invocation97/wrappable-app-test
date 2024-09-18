@@ -1,9 +1,9 @@
 import { Canvas } from "@react-three/fiber";
-import { Experience } from "./components/Experience";
 import { Leva, useControls } from "leva";
-import { useEffect, useContext, useRef } from "react";
-import { customLevaTheme } from "./utils/levaTheme";
+import { useContext, useEffect, useRef } from "react";
+import { Experience } from "./components/Experience";
 import { LevaContext } from "./context/LevaContext";
+import { customLevaTheme } from "./utils/levaTheme";
 
 function App() {
   const debugging = true;
@@ -30,44 +30,44 @@ function App() {
   }, []);
 
   const { bgColor, uploadImage, envPreset } = useControls({
-    bgColor: {
-      label: "Background Color",
-      value: backgroundColor,
-      onChange: (color) => {
-        setBackgroundColor(color);
-        setUseBackgroundImage(false);
-      },
-    },
-    uploadImage: {
-      label: "Upload Image",
-      value: null,
-      image: undefined,
-      onChange: (blob) => {
-        if (blob) {
-          setUseBackgroundImage(true);
-          setBackgroundImage(blob);
-        }
-      },
-    },
-    envPreset: {
-      label: "Environment Preset",
-      value: environmentPreset,
-      options: [
-        "city",
-        "apartment",
-        "dawn",
-        "forest",
-        "lobby",
-        "night",
-        "park",
-        "studio",
-        "sunset",
-        "warehouse",
-      ],
-      onChange: (preset) => {
-        setEnvironmentPreset(preset);
-      },
-    },
+    // bgColor: {
+    //   label: "Background Color",
+    //   value: backgroundColor,
+    //   onChange: (color) => {
+    //     setBackgroundColor(color);
+    //     setUseBackgroundImage(false);
+    //   },
+    // },
+    // uploadImage: {
+    //   label: "Upload Image",
+    //   value: null,
+    //   image: undefined,
+    //   onChange: (blob) => {
+    //     if (blob) {
+    //       setUseBackgroundImage(true);
+    //       setBackgroundImage(blob);
+    //     }
+    //   },
+    // },
+    // envPreset: {
+    //   label: "Environment Preset",
+    //   value: environmentPreset,
+    //   options: [
+    //     "city",
+    //     "apartment",
+    //     "dawn",
+    //     "forest",
+    //     "lobby",
+    //     "night",
+    //     "park",
+    //     "studio",
+    //     "sunset",
+    //     "warehouse",
+    //   ],
+    //   onChange: (preset) => {
+    //     setEnvironmentPreset(preset);
+    //   },
+    // },
   });
 
   return (
