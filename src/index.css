@@ -3,15 +3,17 @@
   height: 100vh;
 }
 
-:root,
+/* :root,
 .leva-t-kqjEjX {
   --leva-colors-accent2: #8562e3;
   --leva-colors-accent1: hsl(256, 70%, 34%);
-  --leva-fonts-mono: "Outfit", sans-serif;
   transition: all 0.5s ease-in-out;
-}
+} */
 
-.leva-c-ihqPFh {
+button {
+  --leva-colors-accent2: #8562e3;
+  --leva-colors-accent1: hsl(256, 70%, 34%);
+  font-family: "Outfit", sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
 }
