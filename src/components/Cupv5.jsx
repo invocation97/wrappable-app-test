@@ -1,5 +1,5 @@
 import { useGLTF } from "@react-three/drei";
-import { useControls } from "leva";
+import { button, useControls } from "leva";
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { calculateNewPositions } from "../utils/calculateNewPositions";
@@ -7,6 +7,8 @@ import { calculateNewPositions } from "../utils/calculateNewPositions";
 export function CupV5({ backgroundColor, ...props }) {
   const { nodes, materials } = useGLTF("/models/wrapware_cup_v_5.glb");
   const [designImage, setDesignImage] = useState("/textures/anime.png");
+  const [cupColor, setCupColor] = useState("White Ceramic");
+
   const modelRef = useRef(null);
 
   useEffect(() => {
@@ -17,15 +19,14 @@ export function CupV5({ backgroundColor, ...props }) {
   }, [nodes]);
 
   const { color, hideImage } = useControls({
-    color: {
-      label: "Cup Color",
-      value: "White",
-      options: ["White", "Stainless steel", "Black"],
-    },
     // hideImage: {
     //   value: false,
     //   label: "Hide Wrapper",
     // },
+    "White Ceramic": button(() => setCupColor("White Ceramic")),
+    "Stainless Steel": button(() => setCupColor("Stainless Steel")),
+    "Black Ceramic": button(() => setCupColor("Black Ceramic")),
+    
   });
 
   const semiTransparentMaterial = (colorHex) =>
@@ -47,7 +48,7 @@ export function CupV5({ backgroundColor, ...props }) {
   });
 
   const materialMapping = {
-    White: {
+    "White Ceramic": {
       top: new THREE.MeshStandardMaterial({
         color: 0xd9dfdf,
         metalness: 0.1,
@@ -56,7 +57,7 @@ export function CupV5({ backgroundColor, ...props }) {
       bottom: semiTransparentMaterial(0xd9dfdf),
       rubber: siliconeBottomMaterial,
     },
-    "Stainless steel": {
+    "Stainless Steel": {
       top: new THREE.MeshStandardMaterial({
         color: 0xbfbfbf,
         metalness: 0.7,
@@ -65,7 +66,7 @@ export function CupV5({ backgroundColor, ...props }) {
       bottom: semiTransparentMaterial(0xd9dfdf),
       rubber: siliconeBottomMaterial,
     },
-    Black: {
+    "Black Ceramic": {
       top: new THREE.MeshStandardMaterial({
         color: 0x232528,
         roughness: 0.5,
@@ -157,7 +158,7 @@ export function CupV5({ backgroundColor, ...props }) {
         castShadow
         receiveShadow
         geometry={nodes.Lid.geometry}
-        material={materialMapping[color].bottom}
+        material={materialMapping[cupColor].bottom}
         position={[newXPositions.lid, newYPositions.lid, newZPositions.lid]}
       />
       <mesh
@@ -165,7 +166,7 @@ export function CupV5({ backgroundColor, ...props }) {
         castShadow
         receiveShadow
         geometry={nodes.Body.geometry}
-        material={materialMapping[color].top}
+        material={materialMapping[cupColor].top}
         position={[newXPositions.body, newYPositions.body, newZPositions.body]}
       />
       <mesh
@@ -173,7 +174,7 @@ export function CupV5({ backgroundColor, ...props }) {
         castShadow
         receiveShadow
         geometry={nodes.RubberBottom.geometry}
-        material={materialMapping[color].rubber}
+        material={materialMapping[cupColor].rubber}
         position={[
           newXPositions.rubber,
           newYPositions.rubber,

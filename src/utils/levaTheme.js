@@ -3,17 +3,17 @@ export const customLevaTheme = () => ({
     elevation1: "#292d39", // bg color of the root panel (main title bar)
     elevation2: "#181c20", // bg color of the rows (main panel color)
     elevation3: "#373c4b", // bg color of the inputs
-    accent1: "#0066dc",
-    accent2: "#0066dc",
-    accent3: "#0066dc",
-    highlight1: "#3c93ff",
-    highlight2: "#3c93ff",
-    highlight3: "#3c93ff",
+    accent1: "#8562e3",
+    accent2: "#8562e3",
+    accent3: "#8562e3",
+    highlight1: "#8562e3",
+    highlight2: "#8562e3",
+    highlight3: "#8562e3",
     vivid1: "#ffcc00",
-    folderWidgetColor: "$highlight2",
-    folderTextColor: "$highlight3",
-    toolTipBackground: "$highlight3",
-    toolTipText: "$elevation2",
+    folderWidgetColor: "#8562e3",
+    folderTextColor: "#8562e3",
+    toolTipBackground: "#8562e3",
+    toolTipText: "#8562e3",
   },
   radii: {
     xs: "2px",
@@ -28,7 +28,7 @@ export const customLevaTheme = () => ({
     colGap: "7px",
   },
   fonts: {
-    mono: `ui-monospace, SFMono-Regular, Menlo, 'Roboto Mono', monospace`,
+    mono: `Neue Kabel ui-monospace, SFMono-Regular, Menlo, 'Roboto Mono', monospace`,
     sans: `system-ui, sans-serif`,
   },
   fontSizes: {
@@ -71,3 +71,77 @@ export const customLevaTheme = () => ({
     button: "normal",
   },
 });
+
+// export const getDefaultTheme = () => {
+//   colors: {
+//     elevation1: string;
+//     elevation2: string;
+//     elevation3: string;
+//     accent1: string;
+//     accent2: string;
+//     accent3: string;
+//     highlight1: string;
+//     highlight2: string;
+//     highlight3: string;
+//     vivid1: string;
+//     folderWidgetColor: string;
+//     folderTextColor: string;
+//     toolTipBackground: string;
+//     toolTipText: string;
+//   }
+//   radii: {
+//     xs: string;
+//     sm: string;
+//     lg: string;
+//   }
+//   space: {
+//     xs: string;
+//     sm: string;
+//     md: string;
+//     rowGap: string;
+//     colGap: string;
+//   }
+//   fonts: {
+//     mono: string;
+//     sans: string;
+//   }
+//   fontSizes: {
+//     root: string;
+//     toolTip: string;
+//   }
+//   sizes: {
+//     rootWidth: string;
+//     controlWidth: string;
+//     numberInputMinWidth: string;
+//     scrubberWidth: string;
+//     scrubberHeight: string;
+//     rowHeight: string;
+//     folderTitleHeight: string;
+//     checkboxSize: string;
+//     joystickWidth: string;
+//     joystickHeight: string;
+//     colorPickerWidth: string;
+//     colorPickerHeight: string;
+//     imagePreviewWidth: string;
+//     imagePreviewHeight: string;
+//     monitorHeight: string;
+//     titleBarHeight: string;
+//   }
+//   shadows: {
+//     level1: string;
+//     level2: string;
+//   }
+//   borderWidths: {
+//     root: string;
+//     input: string;
+//     focus: string;
+//     hover: string;
+//     active: string;
+//     folder: string;
+//   }
+//   fontWeights: {
+//     label: string;
+//     folder: string;
+//     button: string;
+//   }
+// };
