@@ -23,8 +23,8 @@ export function CupV5({ backgroundColor, ...props }) {
     //   value: false,
     //   label: "Hide Wrapper",
     // },
-    "White Ceramic": button(() => setCupColor("White Ceramic")),
     "Stainless Steel": button(() => setCupColor("Stainless Steel")),
+    "White Ceramic": button(() => setCupColor("White Ceramic")),
     "Black Ceramic": button(() => setCupColor("Black Ceramic")),
     
   });
