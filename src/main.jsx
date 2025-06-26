@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { ControlsProvider } from "./context/ControlsContext";
 import "./index.css";
-import { LevaProvider } from "./context/LevaContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <LevaProvider>
+  <ControlsProvider>
     <App />
-  </LevaProvider>
+  </ControlsProvider>
 );

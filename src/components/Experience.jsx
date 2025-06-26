@@ -2,7 +2,7 @@ import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { useContext, useEffect } from "react";
 import * as THREE from "three";
-import { LevaContext } from "../context/LevaContext";
+import { ControlsContext } from "../context/ControlsContext";
 import { CupV5 } from "./Cupv5";
 
 export const Experience = () => {
@@ -12,7 +12,7 @@ export const Experience = () => {
     useBackgroundImage,
     backgroundImage,
     environmentPreset,
-  } = useContext(LevaContext);
+  } = useContext(ControlsContext);
 
   useEffect(() => {
     if (useBackgroundImage && backgroundImage) {

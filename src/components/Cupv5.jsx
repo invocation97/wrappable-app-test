@@ -1,13 +1,13 @@
 import { useGLTF } from "@react-three/drei";
-import { button, useControls } from "leva";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
+import { ControlsContext } from "../context/ControlsContext";
 import { calculateNewPositions } from "../utils/calculateNewPositions";
 
 export function CupV5({ backgroundColor, ...props }) {
   const { nodes, materials } = useGLTF("/models/wrapware_cup_v_5.glb");
   const [designImage, setDesignImage] = useState("/textures/anime.png");
-  const [cupColor, setCupColor] = useState("White Ceramic");
+  const { cupColor, hideImage } = useContext(ControlsContext);
 
   const modelRef = useRef(null);
 
@@ -18,64 +18,65 @@ export function CupV5({ backgroundColor, ...props }) {
     nodes.Lid.geometry.computeVertexNormals();
   }, [nodes]);
 
-  const { color, hideImage } = useControls({
-    // hideImage: {
-    //   value: false,
-    //   label: "Hide Wrapper",
-    // },
-    "Stainless Steel": button(() => setCupColor("Stainless Steel")),
-    "White Ceramic": button(() => setCupColor("White Ceramic")),
-    "Black Ceramic": button(() => setCupColor("Black Ceramic")),
-    
-  });
-
-  const semiTransparentMaterial = (colorHex) =>
-    new THREE.MeshStandardMaterial({
-      color: colorHex,
-      transparent: true,
-      opacity: 0.6,
-      metalness: 0.1,
-      roughness: 0.8,
-      depthTest: true,
-      depthWrite: false,
-      polygonOffset: true,
-    });
-
-  const siliconeBottomMaterial = new THREE.MeshStandardMaterial({
-    color: 0x232528,
-    roughness: 0.5,
-    metalness: 0,
-  });
-
-  const materialMapping = {
-    "White Ceramic": {
-      top: new THREE.MeshStandardMaterial({
-        color: 0xd9dfdf,
+  // Memoize material creation functions
+  const semiTransparentMaterial = useMemo(
+    () => (colorHex) =>
+      new THREE.MeshStandardMaterial({
+        color: colorHex,
+        transparent: true,
+        opacity: 0.6,
         metalness: 0.1,
-        roughness: 0.6,
+        roughness: 0.8,
+        depthTest: true,
+        depthWrite: false,
+        polygonOffset: true,
       }),
-      bottom: semiTransparentMaterial(0xd9dfdf),
-      rubber: siliconeBottomMaterial,
-    },
-    "Stainless Steel": {
-      top: new THREE.MeshStandardMaterial({
-        color: 0xbfbfbf,
-        metalness: 0.7,
-        roughness: 0.3,
-      }),
-      bottom: semiTransparentMaterial(0xd9dfdf),
-      rubber: siliconeBottomMaterial,
-    },
-    "Black Ceramic": {
-      top: new THREE.MeshStandardMaterial({
+    []
+  );
+
+  const siliconeBottomMaterial = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
         color: 0x232528,
         roughness: 0.5,
-        metalness: 0.5,
+        metalness: 0,
       }),
-      bottom: semiTransparentMaterial(0x232528),
-      rubber: siliconeBottomMaterial,
-    },
-  };
+    []
+  );
+
+  // Memoize material mapping to avoid recreating materials on every render
+  const materialMapping = useMemo(
+    () => ({
+      "White Ceramic": {
+        top: new THREE.MeshStandardMaterial({
+          color: 0xd9dfdf,
+          metalness: 0.1,
+          roughness: 0.6,
+        }),
+        bottom: semiTransparentMaterial(0xd9dfdf),
+        rubber: siliconeBottomMaterial,
+      },
+      "Stainless Steel": {
+        top: new THREE.MeshStandardMaterial({
+          color: 0xbfbfbf,
+          metalness: 0.7,
+          roughness: 0.3,
+        }),
+        bottom: semiTransparentMaterial(0xd9dfdf),
+        rubber: siliconeBottomMaterial,
+      },
+      "Black Ceramic": {
+        top: new THREE.MeshStandardMaterial({
+          color: 0x232528,
+          roughness: 0.5,
+          metalness: 0.5,
+        }),
+        bottom: semiTransparentMaterial(0x232528),
+        rubber: siliconeBottomMaterial,
+      },
+    }),
+    [semiTransparentMaterial, siliconeBottomMaterial]
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -85,51 +86,60 @@ export function CupV5({ backgroundColor, ...props }) {
     }
   }, []);
 
-  const originalXPositions = {
-    wrapper: 1.2437257,
-    lid: 1.24405658,
-    body: 1.24456036,
-    rubber: 1.24456036,
-  };
-  const originalYPositions = {
-    wrapper: 1.96038353,
-    lid: 2.24180412,
+  // Memoize position calculations
+  const positions = useMemo(() => {
+    const originalXPositions = {
+      wrapper: 1.2437257,
+      lid: 1.24405658,
+      body: 1.24456036,
+      rubber: 1.24456036,
+    };
+    const originalYPositions = {
+      wrapper: 1.96038353,
+      lid: 2.24180412,
+      body: 1.91068017,
+      rubber: 1.91068017,
+    };
+    const originalZPositions = {
+      wrapper: 1.08795679,
+      lid: 1.07487011,
+      body: 1.09600306,
+      rubber: 1.09600306,
+    };
 
-    body: 1.91068017,
-    rubber: 1.91068017,
-  };
-  const originalZPositions = {
-    wrapper: 1.08795679,
-    lid: 1.07487011,
-    body: 1.09600306,
-    rubber: 1.09600306,
-  };
+    return {
+      x: calculateNewPositions(originalXPositions),
+      y: calculateNewPositions(originalYPositions),
+      z: calculateNewPositions(originalZPositions),
+    };
+  }, []);
 
-  const newXPositions = calculateNewPositions(originalXPositions);
-  const newYPositions = calculateNewPositions(originalYPositions);
-  const newZPositions = calculateNewPositions(originalZPositions);
+  // Memoize texture and material creation
+  const { decalTexture, decalMaterial } = useMemo(() => {
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load(designImage);
 
-  // Load texture and set wrapping mode to clamp
-  const textureLoader = new THREE.TextureLoader();
-  const decalTexture = textureLoader.load(designImage);
+    const degToRad = (value) => (value * Math.PI) / 180;
 
-  const degToRad = (value) => {
-    return (value * Math.PI) / 180;
-  };
+    // Configure texture
+    texture.rotation = degToRad(270);
+    texture.center.set(0.5, 0.51);
+    texture.repeat.set(1, 1.71);
+    texture.offset.set(0, 0.35);
+    texture.flipY = false;
 
-  // Rotate and scale the texture
-  decalTexture.rotation = degToRad(270);
-  decalTexture.center.set(0.5, 0.51); // Set the center of rotation
-  decalTexture.repeat.set(1, 1.71); // Scale the texture
-  decalTexture.offset.set(0, 0.35); // Adjust the offset to fit correctly
-  decalTexture.flipY = false;
+    const material = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.8,
+      metalness: 1,
+      transparent: false,
+    });
 
-  const decalMaterial = new THREE.MeshStandardMaterial({
-    map: decalTexture,
-    roughness: 0.8,
-    metalness: 1,
-    transparent: false,
-  });
+    return { decalTexture: texture, decalMaterial: material };
+  }, [designImage]);
+
+  const degToRad = useMemo(() => (value) => (value * Math.PI) / 180, []);
+
   return (
     <group
       {...props}
@@ -146,9 +156,9 @@ export function CupV5({ backgroundColor, ...props }) {
         geometry={nodes.Wrapper.geometry}
         material={decalMaterial}
         position={[
-          newXPositions.wrapper,
-          newYPositions.wrapper,
-          newZPositions.wrapper,
+          positions.x.wrapper,
+          positions.y.wrapper,
+          positions.z.wrapper,
         ]}
         scale={hideImage ? 0 : 0.19299337}
         rotation={[0, degToRad(177), 0]}
@@ -159,7 +169,7 @@ export function CupV5({ backgroundColor, ...props }) {
         receiveShadow
         geometry={nodes.Lid.geometry}
         material={materialMapping[cupColor].bottom}
-        position={[newXPositions.lid, newYPositions.lid, newZPositions.lid]}
+        position={[positions.x.lid, positions.y.lid, positions.z.lid]}
       />
       <mesh
         name="Body"
@@ -167,7 +177,7 @@ export function CupV5({ backgroundColor, ...props }) {
         receiveShadow
         geometry={nodes.Body.geometry}
         material={materialMapping[cupColor].top}
-        position={[newXPositions.body, newYPositions.body, newZPositions.body]}
+        position={[positions.x.body, positions.y.body, positions.z.body]}
       />
       <mesh
         name="RubberBottom"
@@ -175,11 +185,7 @@ export function CupV5({ backgroundColor, ...props }) {
         receiveShadow
         geometry={nodes.RubberBottom.geometry}
         material={materialMapping[cupColor].rubber}
-        position={[
-          newXPositions.rubber,
-          newYPositions.rubber,
-          newZPositions.rubber,
-        ]}
+        position={[positions.x.rubber, positions.y.rubber, positions.z.rubber]}
       />
     </group>
   );

@@ -1,36 +1,218 @@
+@font-face {
+  font-family: "Neue Kabel W01 ExtraBold";
+  src: url("https://db.onlinewebfonts.com/t/f39331695848f9ee87dbd4010d31aace.eot");
+  src: url("https://db.onlinewebfonts.com/t/f39331695848f9ee87dbd4010d31aace.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/f39331695848f9ee87dbd4010d31aace.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/f39331695848f9ee87dbd4010d31aace.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/f39331695848f9ee87dbd4010d31aace.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/f39331695848f9ee87dbd4010d31aace.svg#Neue Kabel W01 ExtraBold")
+      format("svg");
+}
+
+:root {
+  /* Brand Colors */
+  --brand-primary: #8562e3;
+  --brand-primary-hover: #7454d1;
+  --brand-primary-active: #6b46c1;
+
+  /* UI Colors */
+  --bg-dark: #2d2d2d;
+  --bg-darker: #3a3a3a;
+  --bg-light: #555555;
+  --text-primary: #ffffff;
+  --border-color: #555555;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --overlay-bg: rgba(45, 45, 45, 0.95);
+
+  /* Typography */
+  --font-brand: "Neue Kabel W01 ExtraBold", "Outfit", sans-serif;
+  --font-fallback: "Outfit", sans-serif;
+}
+
 #root {
   width: 100vw;
   height: 100vh;
 }
 
-/* :root,
-.leva-t-kqjEjX {
-  --leva-colors-accent2: #8562e3;
-  --leva-colors-accent1: hsl(256, 70%, 34%);
-  transition: all 0.5s ease-in-out;
-} */
-
-button {
-  --leva-colors-accent2: #8562e3;
-  --leva-colors-accent1: hsl(256, 70%, 34%);
-  font-family: "Outfit", sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
 body {
   margin: 0;
-  /* font-family: "Neue Kabel"; */
+  font-family: var(--font-brand);
 }
 
 canvas {
   cursor: grab;
 }
 
-.leva-c-hBtFDW {
-  height: fit-content !important;
+/* Custom Controls Styling */
+.custom-controls {
+  background: var(--bg-dark);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px var(--shadow-color);
+  font-family: var(--font-brand);
+  font-size: 0.875rem;
+  min-width: 200px;
+  max-width: 300px;
+  user-select: none;
 }
 
-.leva-c-enSiwp {
-  z-index: 999999 !important;
+.controls-header {
+  background: var(--bg-darker);
+  padding: 8px 12px;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
+}
+
+.controls-header:active {
+  cursor: grabbing;
+}
+
+.controls-title {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.minimize-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-family: var(--font-brand);
+  transition: background-color 0.2s;
+}
+
+.minimize-btn:hover {
+  background: var(--bg-light);
+}
+
+.minimize-btn:focus {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+.controls-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-group label {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.material-buttons-desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  role: group;
+}
+
+.material-btn {
+  background: var(--brand-primary);
+  border: 2px solid transparent;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-brand);
+  transition: all 0.2s;
+  position: relative;
+}
+
+.material-btn:hover {
+  background: var(--brand-primary-hover);
+  transform: translateY(-1px);
+}
+
+.material-btn:focus {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+.material-btn.active {
+  background: var(--brand-primary-active);
+  border-color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(107, 70, 193, 0.4);
+}
+
+/* Mobile Controls */
+.mobile-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: calc(100% - 40px);
+  max-width: 400px;
+}
+
+.material-buttons {
+  display: flex;
+  gap: 8px;
+  background: var(--overlay-bg);
+  backdrop-filter: blur(10px);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-controls .material-btn {
+  flex: 1;
+  padding: 12px 8px;
+  font-size: 0.7rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 2px solid transparent;
+}
+
+.mobile-controls .material-btn.active {
+  border-color: var(--text-primary);
+}
+
+/* Minimized state */
+.custom-controls.minimized {
+  min-width: 200px; /* Prevent width jump when minimized */
+}
+
+.custom-controls.minimized .controls-header {
+  border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .custom-controls {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-controls {
+    display: none;
+  }
 }
