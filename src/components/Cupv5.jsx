@@ -1,13 +1,13 @@
 import { useGLTF } from "@react-three/drei";
-import { button, useControls } from "leva";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { LevaContext } from "../context/LevaContext";
 import { calculateNewPositions } from "../utils/calculateNewPositions";
 
 export function CupV5({ backgroundColor, ...props }) {
   const { nodes, materials } = useGLTF("/models/wrapware_cup_v_5.glb");
   const [designImage, setDesignImage] = useState("/textures/anime.png");
-  const [cupColor, setCupColor] = useState("White Ceramic");
+  const { cupColor, hideImage } = useContext(LevaContext);
 
   const modelRef = useRef(null);
 
@@ -18,16 +18,7 @@ export function CupV5({ backgroundColor, ...props }) {
     nodes.Lid.geometry.computeVertexNormals();
   }, [nodes]);
 
-  const { color, hideImage } = useControls({
-    // hideImage: {
-    //   value: false,
-    //   label: "Hide Wrapper",
-    // },
-    "Stainless Steel": button(() => setCupColor("Stainless Steel")),
-    "White Ceramic": button(() => setCupColor("White Ceramic")),
-    "Black Ceramic": button(() => setCupColor("Black Ceramic")),
-    
-  });
+  // Removed Leva controls - now using CustomControls component
 
   const semiTransparentMaterial = (colorHex) =>
     new THREE.MeshStandardMaterial({

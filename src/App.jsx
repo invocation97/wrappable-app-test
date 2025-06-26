@@ -1,21 +1,10 @@
 import { Canvas } from "@react-three/fiber";
-import { Leva, useControls } from "leva";
-import { useContext, useEffect, useRef } from "react";
+import { useEffect } from "react";
+import CustomControls from "./components/CustomControls";
 import { Experience } from "./components/Experience";
-import { LevaContext } from "./context/LevaContext";
-import { customLevaTheme } from "./utils/levaTheme";
 
 function App() {
   const debugging = true;
-  const fileInputRef = useRef(null);
-  const {
-    backgroundColor,
-    setBackgroundColor,
-    setUseBackgroundImage,
-    setBackgroundImage,
-    environmentPreset,
-    setEnvironmentPreset,
-  } = useContext(LevaContext);
 
   useEffect(() => {
     if (!debugging) {
@@ -29,52 +18,9 @@ function App() {
     }
   }, []);
 
-  const { bgColor, uploadImage, envPreset } = useControls({
-    // bgColor: {
-    //   label: "Background Color",
-    //   value: backgroundColor,
-    //   onChange: (color) => {
-    //     setBackgroundColor(color);
-    //     setUseBackgroundImage(false);
-    //   },
-    // },
-    // uploadImage: {
-    //   label: "Upload Image",
-    //   value: null,
-    //   image: undefined,
-    //   onChange: (blob) => {
-    //     if (blob) {
-    //       setUseBackgroundImage(true);
-    //       setBackgroundImage(blob);
-    //     }
-    //   },
-    // },
-    // envPreset: {
-    //   label: "Environment Preset",
-    //   value: environmentPreset,
-    //   options: [
-    //     "city",
-    //     "apartment",
-    //     "dawn",
-    //     "forest",
-    //     "lobby",
-    //     "night",
-    //     "park",
-    //     "studio",
-    //     "sunset",
-    //     "warehouse",
-    //   ],
-    //   onChange: (preset) => {
-    //     setEnvironmentPreset(preset);
-    //   },
-    // },
-  });
-
   return (
     <div style={{ position: "relative", minHeight: "100vh", height: "100%" }}>
-      <div style={{ position: "absolute", left: 0, top: 0, zIndex: 9999 }}>
-        <Leva fill theme={customLevaTheme} />
-      </div>
+      <CustomControls />
       <Canvas
         shadows
         camera={{ position: [0, 20, 70], fov: 40 }}
