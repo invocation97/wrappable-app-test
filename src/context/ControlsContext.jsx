@@ -1,8 +1,8 @@
 import React, { createContext, useState } from "react";
 
-export const LevaContext = createContext();
+export const ControlsContext = createContext();
 
-export const LevaProvider = ({ children }) => {
+export const ControlsProvider = ({ children }) => {
   const [backgroundColor, setBackgroundColor] = useState("#333947");
   const [useBackgroundImage, setUseBackgroundImage] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(null);
@@ -11,7 +11,7 @@ export const LevaProvider = ({ children }) => {
   const [environmentPreset, setEnvironmentPreset] = useState("city");
 
   return (
-    <LevaContext.Provider
+    <ControlsContext.Provider
       value={{
         backgroundColor,
         setBackgroundColor,
@@ -28,6 +28,6 @@ export const LevaProvider = ({ children }) => {
       }}
     >
       {children}
-    </LevaContext.Provider>
+    </ControlsContext.Provider>
   );
 };
