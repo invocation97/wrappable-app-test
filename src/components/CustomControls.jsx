@@ -1,5 +1,14 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { LevaContext } from "../context/LevaContext";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { ControlsContext } from "../context/ControlsContext";
+import { useMobile } from "../hooks/useMobile";
+import { MATERIAL_BUTTONS } from "../lib/constants";
 
 const CustomControls = () => {
   const {
@@ -13,56 +22,55 @@ const CustomControls = () => {
     setEnvironmentPreset,
     hideImage,
     setHideImage,
-  } = useContext(LevaContext);
+  } = useContext(ControlsContext);
 
   const [isMinimized, setIsMinimized] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 20, y: 20 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useMobile(768);
   const controlsRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+  const handleMouseDown = useCallback(
+    (e) => {
+      if (isMobile) return;
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+      setIsDragging(true);
+      const rect = controlsRef.current.getBoundingClientRect();
+      setDragOffset({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    },
+    [isMobile]
+  );
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (!isDragging || isMobile) return;
+
+      setPosition({
+        x: e.clientX - dragOffset.x,
+        y: e.clientY - dragOffset.y,
+      });
+    },
+    [isDragging, isMobile, dragOffset.x, dragOffset.y]
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
   }, []);
 
-  const handleMouseDown = (e) => {
-    if (isMobile) return;
-
-    setIsDragging(true);
-    const rect = controlsRef.current.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging || isMobile) return;
-
-    setPosition({
-      x: e.clientX - dragOffset.x,
-      y: e.clientY - dragOffset.y,
-    });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleKeyDown = (e, material) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      setCupColor(material);
-    }
-  };
+  const handleKeyDown = useCallback(
+    (e, material) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setCupColor(material);
+      }
+    },
+    [setCupColor]
+  );
 
   useEffect(() => {
     if (isDragging) {
@@ -76,33 +84,45 @@ const CustomControls = () => {
     };
   }, [isDragging, dragOffset]);
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setUseBackgroundImage(true);
-      setBackgroundImage(url);
-    }
-  };
+  const handleImageUpload = useCallback(
+    (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        setUseBackgroundImage(true);
+        setBackgroundImage(url);
+      }
+    },
+    [setUseBackgroundImage, setBackgroundImage]
+  );
 
-  const materialButtons = [
-    { label: "Stainless Steel", value: "Stainless Steel" },
-    { label: "White Ceramic", value: "White Ceramic" },
-    { label: "Black Ceramic", value: "Black Ceramic" },
-  ];
+  const handleMaterialClick = useCallback(
+    (materialValue) => {
+      setCupColor(materialValue);
+    },
+    [setCupColor]
+  );
 
-  const environmentOptions = [
-    "city",
-    "apartment",
-    "dawn",
-    "forest",
-    "lobby",
-    "night",
-    "park",
-    "studio",
-    "sunset",
-    "warehouse",
-  ];
+  const handleMinimizeToggle = useCallback(() => {
+    setIsMinimized(!isMinimized);
+  }, [isMinimized]);
+
+  // Memoize computed values
+  const minimizeLabel = useMemo(
+    () => (isMinimized ? "Expand controls panel" : "Minimize controls panel"),
+    [isMinimized]
+  );
+
+  const controlsStyle = useMemo(
+    () => ({
+      position: "absolute",
+      left: position.x,
+      top: position.y,
+      zIndex: 9999,
+      cursor: isDragging ? "grabbing" : "grab",
+    }),
+    [position.x, position.y, isDragging]
+  );
 
   if (isMobile) {
     return (
@@ -116,13 +136,13 @@ const CustomControls = () => {
           role="group"
           aria-label="Select cup material"
         >
-          {materialButtons.map((material) => (
+          {MATERIAL_BUTTONS.map((material) => (
             <button
               key={material.value}
               className={`material-btn ${
                 cupColor === material.value ? "active" : ""
               }`}
-              onClick={() => setCupColor(material.value)}
+              onClick={() => handleMaterialClick(material.value)}
               onKeyDown={(e) => handleKeyDown(e, material.value)}
               aria-pressed={cupColor === material.value}
               aria-label={`Select ${material.label} cup material`}
@@ -139,13 +159,7 @@ const CustomControls = () => {
     <div
       ref={controlsRef}
       className={`custom-controls ${isMinimized ? "minimized" : ""}`}
-      style={{
-        position: "absolute",
-        left: position.x,
-        top: position.y,
-        zIndex: 9999,
-        cursor: isDragging ? "grabbing" : "grab",
-      }}
+      style={controlsStyle}
       role="region"
       aria-label="Cup customization controls"
     >
@@ -157,10 +171,8 @@ const CustomControls = () => {
         <span className="controls-title">Controls</span>
         <button
           className="minimize-btn"
-          onClick={() => setIsMinimized(!isMinimized)}
-          aria-label={
-            isMinimized ? "Expand controls panel" : "Minimize controls panel"
-          }
+          onClick={handleMinimizeToggle}
+          aria-label={minimizeLabel}
           aria-expanded={!isMinimized}
         >
           {isMinimized ? "□" : "−"}
@@ -176,13 +188,13 @@ const CustomControls = () => {
               role="group"
               aria-labelledby="cup-material-label"
             >
-              {materialButtons.map((material) => (
+              {MATERIAL_BUTTONS.map((material) => (
                 <button
                   key={material.value}
                   className={`material-btn ${
                     cupColor === material.value ? "active" : ""
                   }`}
-                  onClick={() => setCupColor(material.value)}
+                  onClick={() => handleMaterialClick(material.value)}
                   onKeyDown={(e) => handleKeyDown(e, material.value)}
                   aria-pressed={cupColor === material.value}
                   aria-label={`Select ${material.label} cup material`}
